@@ -26,7 +26,8 @@ func (s *Server) Start() {
 	router := chi.NewMux()
 
 	router.Get("/category", makeHTTP(s.handleListCategory))
-	router.Get("/category/{category}", makeHTTP(s.handleWeaponParams))
+	router.Get("/category/{category}", makeHTTP(s.handleWeapons))
+	router.Get("/{weapon}", makeHTTP(s.handleWeapon))
 	router.Post("/add", makeHTTP(s.handleInsertWeapon))
 	router.Put("/update", makeHTTP(s.handleUpdateWeapon))
 

@@ -32,8 +32,21 @@ func NewMongoDBStorage(ctx context.Context, mongodbURL, mongodbDatabase, mongodb
 	}, nil
 }
 
-func (s *MongoDBStorage) WeaponParams(ctx context.Context, category string) ([]*Params, error) {
+func (s *MongoDBStorage) Weapon(ctx context.Context, name string) (*Params, error) {
+	filter := bson.M{"name": name}
+
+	result := new(Params)
+
+	if err := s.coll.FindOne(ctx, filter).Decode(result); err != nil && errors.Is(err, mongo.ErrNoDocuments) {
+		return nil, fmt.Errorf("%s doesn't exist", name)
+	}
+
+	return result, nil
+}
+
+func (s *MongoDBStorage) Weapons(ctx context.Context, category string) ([]*Params, error) {
 	filter := bson.M{"category": category}
+
 	cursor, err := s.coll.Find(ctx, filter)
 	if err != nil {
 		return nil, err

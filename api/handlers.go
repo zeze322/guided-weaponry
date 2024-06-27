@@ -17,9 +17,19 @@ func (s *Server) handleListCategory(w http.ResponseWriter, r *http.Request) erro
 	return writeJSON(w, http.StatusOK, categories)
 }
 
-func (s *Server) handleWeaponParams(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) handleWeapon(w http.ResponseWriter, r *http.Request) error {
+	name := chi.URLParam(r, "weapon")
+	params, err := s.mongo.Weapon(r.Context(), name)
+	if err != nil {
+		return err
+	}
+
+	return writeJSON(w, http.StatusOK, params)
+}
+
+func (s *Server) handleWeapons(w http.ResponseWriter, r *http.Request) error {
 	category := chi.URLParam(r, "category")
-	params, err := s.mongo.WeaponParams(r.Context(), category)
+	params, err := s.mongo.Weapons(r.Context(), category)
 	if err != nil {
 		return err
 	}

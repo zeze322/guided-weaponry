@@ -2,11 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"strconv"
-
-	"github.com/go-chi/chi/v5"
 )
 
 type ApiErr struct {
@@ -28,14 +24,4 @@ func writeJSON(w http.ResponseWriter, status int, v interface{}) error {
 	w.WriteHeader(status)
 
 	return json.NewEncoder(w).Encode(v)
-}
-
-func getId(r *http.Request) (int, error) {
-	idStr := chi.URLParam(r, "id")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		return -1, fmt.Errorf("invalid id: %s", idStr)
-	}
-
-	return id, nil
 }

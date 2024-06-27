@@ -53,7 +53,12 @@ func (s *MySQLStorage) ListCategory(ctx context.Context) ([]Category, error) {
 	return categories, nil
 }
 
-func (s *MySQLStorage) WeaponParams(ctx context.Context, category string) ([]*Params, error) {
+func (s *MySQLStorage) Weapon(ctx context.Context, name string) (*Params, error) {
+
+	return nil, nil
+}
+
+func (s *MySQLStorage) Weapons(ctx context.Context, category string) ([]*Params, error) {
 
 	return nil, nil
 }
